@@ -1,0 +1,50 @@
+datasource db {
+  provider = "postgresql" 
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  username   String   @db.VarChar(100)
+  email      String   @unique @db.VarChar(255)
+  password   String
+  todos      Todo[]
+  tags       Tag[]
+}
+
+model Todo {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  title       String    @db.VarChar(256)
+  content     String?
+  status      String    @default("incomplete")
+  dueDate     DateTime?
+  completedAt DateTime?
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  tags        TodoTag[]
+}
+
+model Tag {
+  id       Int      @id @default(autoincrement())
+  name     String   @db.VarChar(256)
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id])
+  todos    TodoTag[]
+}
+
+model TodoTag {
+  todoId Int
+  tagId  Int
+  todo   Todo  @relation(fields: [todoId], references: [id])
+  tag    Tag   @relation(fields: [tagId], references: [id])
+
+  @@id([todoId, tagId])
+}
