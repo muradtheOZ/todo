@@ -8,8 +8,21 @@ export default function EditTagPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.get(`/tags/${id}`).then(res => setName(res.data.name));
-  }, [id]);
+    if (!id) {
+      navigate("/tags");
+      return;
+    }
+
+    api
+      .get<{ id: number; name: string }>(`/tags/${id}`)
+      .then(res => {
+        setName(res.data.name);
+      })
+      .catch((e) => {
+        // navigate("/tags");
+        console.error("Tag not found",e);
+      });
+  }, [id, navigate]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();

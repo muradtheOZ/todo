@@ -4,6 +4,7 @@ import {
   getTags,
   updateTag,
   deleteTag,
+  getTagById,
 } from "../controllers/tagController";
 import { authenticateToken } from "../middlewares/authMiddleware";
 
@@ -18,5 +19,7 @@ router.get("/", getTags);
 router.put("/:id", updateTag);
 
 router.delete("/:id", deleteTag);
+
+router.get("/:id", getTagById);
 
 export default router;

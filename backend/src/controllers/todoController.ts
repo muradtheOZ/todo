@@ -133,3 +133,25 @@ export const deleteTodo: RequestHandler = async (req, res, next) => {
     return;
   }
 };
+
+export const getTodoById: RequestHandler = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+
+  try {
+    const todo = await prisma.todo.findUnique({
+      where: { id },
+      include: { tags: { include: { tag: true } } },
+    });
+
+    if (!todo) {
+      res.status(404).json({ msg: "Todo not found" });
+      return;
+    }
+
+    res.json(todo);
+    return;
+  } catch (err) {
+    next(err);
+    return;
+  }
+};

@@ -81,3 +81,24 @@ export const deleteTag: RequestHandler = async (req, res, next) => {
     return;
   }
 };
+// GET /api/tags/:id/todos
+export const getTagById: RequestHandler = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+
+  try {
+    const tag = await prisma.tag.findUnique({
+      where: { id },
+    });
+
+    if (!tag) {
+      res.status(404).json({ msg: "Tag not found" });
+      return;
+    }
+
+    res.json(tag);
+    return;
+  } catch (err) {
+    next(err);
+    return;
+  }
+};
