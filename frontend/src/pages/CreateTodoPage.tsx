@@ -68,7 +68,7 @@ export default function CreateTodoPage() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 font-serif">
       <div className="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-md p-6">
         <h1 className="text-2xl font-bold text-center mb-4">New Todo</h1>
-        {err && <p className="text-red-700 mb-4">{err}</p>}
+        {err && <p className="text-error mb-4">{err}</p>}
         <form onSubmit={submit} className="space-y-4">
           <div>
             <label className="block mb-1">Title</label>
@@ -98,7 +98,7 @@ export default function CreateTodoPage() {
           </div>
           <div>
             <label className="block mb-1">Tags</label>
-            <div className="flex items-center gap-2">
+            <div className="items-center gap-y-3">
               <TagSelector
                 selected={tagIds}
                 setSelected={setTagIds}

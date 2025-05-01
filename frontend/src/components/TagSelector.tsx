@@ -23,7 +23,7 @@ export default function TagSelector({ selected, setSelected, refreshTrigger }: P
       : [...selected, id]);
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 mb-2">
       {tags.map(tag => (
         <button
           key={tag.id}

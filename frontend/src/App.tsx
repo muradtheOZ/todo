@@ -5,6 +5,9 @@ import TodoListPage from "./pages/TodoListPage";
 import CreateTodoPage from "./pages/CreateTodoPage";
 import EditTodoPage from "./pages/EditTodoPage";
 import PrivateRoute from "./components/PrivateRoute";
+import CreateTagPage from "./pages/CreateTagPage";
+import EditTagPage from "./pages/EditTagPage";
+import TagListPage from "./pages/TagListPage"; // Import the correct component
 
 export default function App() {
   return (
@@ -36,7 +39,31 @@ export default function App() {
             </PrivateRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route
+          path="/tags"
+          element={
+            <PrivateRoute>
+              <TagListPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/tags/new"
+          element={
+            <PrivateRoute>
+              <CreateTagPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/tags/:id/edit"
+          element={
+            <PrivateRoute>
+              <EditTagPage />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/todos" replace />} />
       </Routes>
     </BrowserRouter>
   );

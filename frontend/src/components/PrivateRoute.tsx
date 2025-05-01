@@ -8,7 +8,7 @@ export default function PrivateRoute({ children }: Props) {
   const [ok, setOk] = useState<boolean | null>(null);
 
   useEffect(() => {
-    api.get("/auth/verify")   // you can add a /verify endpoint or reuse GET /todos with 401 check
+    api.get("/auth/verify")   
       .then(() => setOk(true))
       .catch(() => setOk(false));
   }, []);

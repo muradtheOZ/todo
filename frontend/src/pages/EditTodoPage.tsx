@@ -1,6 +1,6 @@
 // src/pages/EditTodoPage.tsx
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import api from "../api/axios";
 import TagSelector from "../components/TagSelector";
@@ -52,7 +52,7 @@ export default function EditTodoPage() {
       .catch((error: AxiosError) => {
         // if not found or unauthorized, go back
         if(error)
-        navigate("/todos", { replace: true });
+          console.error(error);
       });
   }, [id, navigate]);
 
@@ -86,8 +86,15 @@ export default function EditTodoPage() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 font-serif">
       <div className="w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-md p-6">
+        <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-center mb-4">Edit Todo</h1>
-        {err && <p className="text-red-700 mb-4">{err}</p>}
+        <Link
+          to="/todos"
+          className="text-blue-500 btn-secondary hover:underline px-4 p-2 rounded mb-4 block text-center">
+        Back to Todos
+        </Link>
+        </div>
+        {err && <p className="text-error mb-4">{err}</p>}
         <form onSubmit={submit} className="space-y-4">
           <div>
             <label className="block mb-1">Title</label>
@@ -132,7 +139,7 @@ export default function EditTodoPage() {
           </div>
           <button
             type="submit"
-            className="w-full py-2 bg-gray-800 text-white rounded hover:bg-gray-900"
+            className="w-full py-2 btn-primary text-white rounded hover:bg-gray-900"
           >
             Update
           </button>

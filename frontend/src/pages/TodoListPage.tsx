@@ -84,12 +84,20 @@ export default function TodoListPage() {
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold">My Todo List</h1>
-          <Link
-            to="/todos/new"
-            className="px-4 py-2 bg-primary bg-gray-800 text-white rounded hover:bg-gray-900 transition"
-          >
-            + New Todo
-          </Link>
+          <div className="flex gap-4">
+            <Link
+              to="/tags"
+              className="btn btn-primary px-4 py-2 text-white rounded hover:primary-focus transition"
+            >
+              Tags
+            </Link>
+            <Link
+              to="/todos/new"
+              className="px-4 py-2 bg-primary bg-gray-800 text-white rounded hover:primary-focus transition"
+            >
+              + New Todo
+            </Link>
+          </div>
         </div>
 
         {/* Filters */}
@@ -180,14 +188,12 @@ export default function TodoListPage() {
                         : "-"}
                     </td>
                     <td className="px-4  py-2 border-t border-gray-200">
-                      <button className="btn-secondary px-2 py-1 rounded">
-                        <Link
-                          to={`/todos/${t.id}/edit`}
-                          className="text-indigo-600  hover:underline"
-                        >
-                          Edit
-                        </Link>
-                      </button>
+                      <Link
+                        to={`/todos/${t.id}/edit`}
+                        className="btn btn-sm  btn-outline"
+                      >
+                        Edit
+                      </Link>
                     </td>
                   </tr>
                 );
