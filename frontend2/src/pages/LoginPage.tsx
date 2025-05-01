@@ -34,9 +34,7 @@ export default function LoginPage() {
             <input
               type="email"
               value={form.email}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, email: e.target.value }))
-              }
+              onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-400 rounded focus:outline-none focus:ring focus:ring-gray-300"
             />
           </div>
@@ -45,15 +43,13 @@ export default function LoginPage() {
             <input
               type="password"
               value={form.password}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, password: e.target.value }))
-              }
+              onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-400 rounded focus:outline-none focus:ring focus:ring-gray-300"
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2 bg-primary text-white rounded hover:bg-gray-900 transition"
+            className="w-full py-2 bg-gray-800 text-white rounded hover:bg-gray-900 transition"
           >
             Log In
           </button>
