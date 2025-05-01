@@ -121,7 +121,16 @@ export const deleteTodo: RequestHandler = async (req, res, next) => {
   const id = parseInt(req.params.id);
 
   try {
-    await prisma.todo.delete({ where: { id } });
+    // Remove all associations between the Todo and its Tags
+    await prisma.todoTag.deleteMany({
+      where: { todoId: id },
+    });
+
+    // Delete the Todo itself
+    await prisma.todo.delete({
+      where: { id },
+    });
+
     res.status(204).send();
     return;
   } catch (err: any) {

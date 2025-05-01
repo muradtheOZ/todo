@@ -69,16 +69,19 @@ export const deleteTag: RequestHandler = async (req, res, next) => {
   const id = parseInt(req.params.id);
 
   try {
-    await prisma.tag.delete({ where: { id } });
-    res.status(204).send();
-    return;
-  } catch (err: any) {
-    if (err.code === "P2025") {
-      res.status(404).json({ msg: "Tag not found" });
-      return;
-    }
+    // Remove the association of the tag from all Todos
+    await prisma.todoTag.deleteMany({
+      where: { tagId: id },
+    });
+
+    // Delete the tag itself
+    const tag = await prisma.tag.delete({
+      where: { id },
+    });
+
+    res.json({ msg: "Tag deleted successfully", tag });
+  } catch (err) {
     next(err);
-    return;
   }
 };
 // GET /api/tags/:id/todos

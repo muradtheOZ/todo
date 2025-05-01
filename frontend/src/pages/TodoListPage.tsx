@@ -157,7 +157,7 @@ export default function TodoListPage() {
                   <tr
                     key={t.id}
                     className={`${idx % 2 === 1 ? "bg-gray-100" : ""} ${
-                      isOverdue ? "bg-red-100" : ""
+                      isOverdue ? "bg-warning" : ""
                     }`}
                   >
                     <td className="px-4 py-2 border-t border-gray-200">
@@ -188,12 +188,30 @@ export default function TodoListPage() {
                         : "-"}
                     </td>
                     <td className="px-4  py-2 border-t border-gray-200">
-                      <Link
-                        to={`/todos/${t.id}/edit`}
-                        className="btn btn-sm  btn-outline"
-                      >
-                        Edit
-                      </Link>
+                      <div className="flex gap-3">
+                        <Link
+                          to={`/todos/${t.id}/edit`}
+                          className="btn btn-sm  btn-outline"
+                        >
+                          Edit
+                        </Link>
+                        {/* delete */}
+                        <button
+                          onClick={async () => {
+                            if (
+                              confirm(
+                                `Are you sure you want to delete ${t.title}?`
+                              )
+                            ) {
+                              await api.delete(`/todos/${t.id}`);
+                              setTodos(todos.filter((x) => x.id !== t.id));
+                            }
+                          }}
+                          className="btn btn-sm btn-error ml-2"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
