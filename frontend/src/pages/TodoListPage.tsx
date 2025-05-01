@@ -24,7 +24,9 @@ export default function TodoListPage() {
   const [todos, setTodos] = useState<TodoWithTags[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [statusFilter, setStatusFilter] = useState<"all" | "incomplete" | "complete">("all");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "incomplete" | "complete"
+  >("all");
   const [tagFilter, setTagFilter] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -36,12 +38,12 @@ export default function TodoListPage() {
       .get<{ todos: TodoWithTags[]; totalPages: number }>("/todos", {
         params: {
           page,
-          limit: 20,
+          limit: 10,
           ...(statusFilter !== "all" && { status: statusFilter }),
           ...(tagFilter.length > 0 && { tagIds: tagFilter.join(",") }),
         },
       })
-      .then(res => {
+      .then((res) => {
         setTodos(res.data.todos);
         setTotalPages(res.data.totalPages);
       })
@@ -69,7 +71,7 @@ export default function TodoListPage() {
         content: todo.content,
         dueDate: todo.dueDate,
         status: todo.status === "complete" ? "incomplete" : "complete",
-        tagIds: todo.tags.map(r => r.tag.id),
+        tagIds: todo.tags.map((r) => r.tag.id),
       })
       .then(fetchTodos)
       .catch(console.error);
@@ -84,7 +86,7 @@ export default function TodoListPage() {
           <h1 className="text-3xl font-bold">My Todo List</h1>
           <Link
             to="/todos/new"
-            className="px-4 py-2 bg-secondary bg-gray-800 text-white rounded hover:bg-gray-900 transition"
+            className="px-4 py-2 bg-primary bg-gray-800 text-white rounded hover:bg-gray-900 transition"
           >
             + New Todo
           </Link>
@@ -96,8 +98,10 @@ export default function TodoListPage() {
             <label className="block text-gray-700 mb-1">Status:</label>
             <select
               value={statusFilter}
-              onChange={e =>
-                setStatusFilter(e.target.value as "all" | "incomplete" | "complete")
+              onChange={(e) =>
+                setStatusFilter(
+                  e.target.value as "all" | "incomplete" | "complete"
+                )
               }
               className="px-3 py-1 border rounded focus:outline-none focus:ring"
             >
@@ -110,7 +114,7 @@ export default function TodoListPage() {
             <label className="block text-gray-700 mb-1">Tags:</label>
             <TagSelector
               selected={tagFilter}
-              setSelected={ids => {
+              setSelected={(ids) => {
                 setPage(1);
                 setTagFilter(ids);
               }}
@@ -139,7 +143,8 @@ export default function TodoListPage() {
             <tbody>
               {todos.map((t, idx) => {
                 const due = t.dueDate ? new Date(t.dueDate) : null;
-                const isOverdue = due !== null && due < today && t.status === "incomplete";
+                const isOverdue =
+                  due !== null && due < today && t.status === "incomplete";
                 return (
                   <tr
                     key={t.id}
@@ -147,12 +152,14 @@ export default function TodoListPage() {
                       isOverdue ? "bg-red-100" : ""
                     }`}
                   >
-                    <td className="px-4 py-2 border-t border-gray-200">{t.title}</td>
+                    <td className="px-4 py-2 border-t border-gray-200">
+                      {t.title}
+                    </td>
                     <td className="px-4 py-2 border-t border-gray-200 truncate max-w-xs">
                       {t.content}
                     </td>
                     <td className="px-4 py-2 border-t border-gray-200">
-                      {t.tags.map(r => r.tag.name).join(", ")}
+                      {t.tags.map((r) => r.tag.name).join(", ")}
                     </td>
                     <td className="px-4 py-2 border-t border-gray-200 text-center">
                       <input
@@ -168,15 +175,19 @@ export default function TodoListPage() {
                       {due ? due.toLocaleDateString() : "-"}
                     </td>
                     <td className="px-4 py-2 border-t border-gray-200">
-                      {t.completedAt ? new Date(t.completedAt).toLocaleString() : "-"}
+                      {t.completedAt
+                        ? new Date(t.completedAt).toLocaleString()
+                        : "-"}
                     </td>
-                    <td className="px-4 py-2 border-t border-gray-200">
-                      <Link
-                        to={`/todos/${t.id}/edit`}
-                        className="text-indigo-600 hover:underline"
-                      >
-                        Edit
-                      </Link>
+                    <td className="px-4  py-2 border-t border-gray-200">
+                      <button className="btn-secondary px-2 py-1 rounded">
+                        <Link
+                          to={`/todos/${t.id}/edit`}
+                          className="text-indigo-600  hover:underline"
+                        >
+                          Edit
+                        </Link>
+                      </button>
                     </td>
                   </tr>
                 );
@@ -186,11 +197,11 @@ export default function TodoListPage() {
         )}
 
         {/* Pagination */}
-        <div className="flex justify-between items-center mt-6">
+        <div className="flex justify-center gap-3 items-center mt-6">
           <button
-            className="px-4 py-2 bg-gray-800 text-white rounded disabled:opacity-50"
+            className="px-4 py-2 bg-secondary text-white rounded disabled:opacity-50"
             disabled={page <= 1}
-            onClick={() => setPage(p => p - 1)}
+            onClick={() => setPage((p) => p - 1)}
           >
             Prev
           </button>
@@ -198,9 +209,9 @@ export default function TodoListPage() {
             Page {page} of {totalPages}
           </span>
           <button
-            className="px-4 py-2 bg-gray-800 text-white rounded disabled:opacity-50"
+            className="px-4 py-2 bg-secondary text-white rounded disabled:opacity-50"
             disabled={page >= totalPages}
-            onClick={() => setPage(p => p + 1)}
+            onClick={() => setPage((p) => p + 1)}
           >
             Next
           </button>

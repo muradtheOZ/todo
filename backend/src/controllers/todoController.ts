@@ -21,10 +21,10 @@ export const createTodo: RequestHandler = async (req, res, next) => {
         user: { connect: { id: (req as any).userId } },
         tags: tagIds
           ? {
-              create: tagIds.map((tagId: number) => ({
-                tag: { connect: { id: tagId } },
-              })),
-            }
+            create: tagIds.map((tagId: number) => ({
+              tag: { connect: { id: tagId } },
+            })),
+          }
           : undefined,
       },
       include: { tags: { include: { tag: true } } },
@@ -95,11 +95,11 @@ export const updateTodo: RequestHandler = async (req, res, next) => {
         completedAt: status === "complete" ? new Date() : null,
         tags: tagIds
           ? {
-              deleteMany: {},
-              create: tagIds.map((tagId: number) => ({
-                tag: { connect: { id: tagId } },
-              })),
-            }
+            deleteMany: {},
+            create: tagIds.map((tagId: number) => ({
+              tag: { connect: { id: tagId } },
+            })),
+          }
           : undefined,
       },
       include: { tags: { include: { tag: true } } },
